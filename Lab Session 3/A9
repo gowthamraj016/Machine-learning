@@ -1,0 +1,70 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+
+
+data = pd.read_excel("Judgment_Embeddings_InLegalBERT.xlsx")
+features = data.drop(columns=["Label"])
+target = data["Label"]
+
+
+X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.3, random_state=42)
+
+
+knn_model = KNeighborsClassifier(n_neighbors=3)
+knn_model.fit(X_train, y_train)
+
+
+train_predictions = knn_model.predict(X_train)
+train_conf_matrix = confusion_matrix(y_train, train_predictions)
+print("Training Set Confusion Matrix:")
+print(train_conf_matrix)
+print("Training Set Classification Report:")
+print(classification_report(y_train, train_predictions))
+
+
+test_predictions = knn_model.predict(X_test)
+test_conf_matrix = confusion_matrix(y_test, test_predictions)
+print("Test Set Confusion Matrix:")
+print(test_conf_matrix)
+print("Test Set Classification Report:")
+print(classification_report(y_test, test_predictions))
+
+output:
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+
+
+data = pd.read_excel("Judgment_Embeddings_InLegalBERT.xlsx")
+features = data.drop(columns=["Label"])
+target = data["Label"]
+
+
+X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.3, random_state=42)
+
+
+knn_model = KNeighborsClassifier(n_neighbors=3)
+knn_model.fit(X_train, y_train)
+
+
+train_predictions = knn_model.predict(X_train)
+train_conf_matrix = confusion_matrix(y_train, train_predictions)
+print("Training Set Confusion Matrix:")
+print(train_conf_matrix)
+print("Training Set Classification Report:")
+print(classification_report(y_train, train_predictions))
+
+
+test_predictions = knn_model.predict(X_test)
+test_conf_matrix = confusion_matrix(y_test, test_predictions)
+print("Test Set Confusion Matrix:")
+print(test_conf_matrix)
+print("Test Set Classification Report:")
+print(classification_report(y_test, test_predictions))

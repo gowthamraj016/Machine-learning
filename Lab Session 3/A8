@@ -1,0 +1,38 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+
+dataset = pd.read_excel("Judgment_Embeddings_InLegalBERT.xlsx")
+X = dataset.drop(columns=["Label"])
+y = dataset["Label"]
+
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+
+knn_model = KNeighborsClassifier(n_neighbors=3)
+knn_model.fit(X_train, y_train)
+
+
+model_accuracy = knn_model.score(X_test, y_test)
+print("Model Accuracy:", model_accuracy)
+k_values = list(range(1, 12))
+performance_scores = []
+for neighbors in k_values:
+    model = KNeighborsClassifier(n_neighbors=neighbors)
+    model.fit(X_train, y_train)
+    score = model.score(X_test, y_test)
+    performance_scores.append(score)
+
+
+plt.figure(figsize=(8, 5))
+plt.plot(k_values, performance_scores, marker="o", linestyle="--", color="b")
+plt.xlabel("Number of Neighbors (k)")
+plt.ylabel("Classification Accuracy")
+plt.title("Effect of k on Model Accuracy")
+plt.grid(True)
+plt.show()
+
+output:

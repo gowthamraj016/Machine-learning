@@ -1,0 +1,24 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+
+
+dataset = pd.read_excel("Judgment_Embeddings_InLegalBERT.xlsx")
+X = dataset.drop(columns=["Label"])
+y = dataset["Label"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+
+knn_classifier = KNeighborsClassifier(n_neighbors=3)
+knn_classifier.fit(X_train, y_train)
+
+
+model_accuracy = knn_classifier.score(X_test, y_test)
+print("Model Accuracy:", model_accuracy)
+
+output:
+
+Model Accuracy: 0.6099071207430341

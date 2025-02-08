@@ -1,0 +1,12 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+
+
+dataset = pd.read_excel("Judgment_Embeddings_InLegalBERT.xlsx")
+attributes = dataset.loc[:, dataset.columns != "Label"]
+labels = dataset["Label"]
+
+
+train_features, test_features, train_labels, test_labels = train_test_split(attributes, labels, test_size=0.3, random_state=42)

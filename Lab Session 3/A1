@@ -1,0 +1,35 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+from scipy.spatial import distance
+
+
+dataset = pd.read_excel("Judgment_Embeddings_InLegalBERT.xlsx")
+features = dataset.iloc[:, :-1]
+target = dataset.iloc[:, -1]
+
+
+class_0_data = dataset[dataset.iloc[:, -1] == 0].iloc[:, :-1]
+class_1_data = dataset[dataset.iloc[:, -1] == 1].iloc[:, :-1]
+
+
+mean_class_0 = class_0_data.mean()
+mean_class_1 = class_1_data.mean()
+print("Mean of Class 0:")
+print(mean_class_0)
+print("Mean of Class 1:")
+print(mean_class_1)
+
+std_dev_class_0 = class_0_data.std()
+std_dev_class_1 = class_1_data.std()
+print("Standard Deviation of Class 0:")
+print(std_dev_class_0)
+print("Standard Deviation of Class 1:")
+print(std_dev_class_1)
+
+
+distance_between_classes = distance.euclidean(mean_class_0, mean_class_1)
+print(f"Interclass Distance: {distance_between_classes}")

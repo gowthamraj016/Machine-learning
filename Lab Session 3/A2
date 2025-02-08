@@ -1,0 +1,34 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+data = pd.read_excel("Judgment_Embeddings_InLegalBERT.xlsx")
+
+
+selected_feature = "feature_0"
+data_values = data[selected_feature]
+
+
+plt.figure(figsize=(8, 5))
+plt.hist(data_values, bins=30, density=True, alpha=0.6, color='b', label="Histogram")
+mean_val = data_values.mean()
+std_dev = data_values.std()
+x_vals = np.linspace(data_values.min(), data_values.max(), 100)
+plt.plot(x_vals, norm.pdf(x_vals, mean_val, std_dev), 'r-', label="Normal Fit")
+plt.xlabel(selected_feature)
+plt.ylabel("Density")
+plt.title(f"Density Plot of {selected_feature}")
+plt.legend()
+plt.show()
+
+
+print(f"Mean of {selected_feature}: {mean_val}")
+print(f"Standard Deviation of {selected_feature}: {std_dev}")
+
+
+output:
+
+Mean of feature_0: -0.28911505610249144
+Standard Deviation of feature_0: 0.0741598134163014
+

@@ -1,0 +1,26 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+def generate_training_data(seed=42, size=20):
+    """Generates random training data."""
+    np.random.seed(seed)
+    X_train = np.random.uniform([1, 1], [10, 10], (size, 2))
+    y_train = np.random.randint(0, 2, size)
+    return X_train, y_train
+
+def plot_training_data(X_train, y_train):
+    """Plots training data as a scatter plot."""
+    plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='bwr', marker='o', edgecolors='k')
+    plt.xlabel("Feature X")
+    plt.ylabel("Feature Y")
+    plt.title("Training Data - Scatter Plot")
+    plt.show()
+
+def main():
+    """Main function to execute the workflow."""
+    X_train, y_train = generate_training_data()
+    plot_training_data(X_train, y_train)
+
+if __name__ == "__main__":
+    main()

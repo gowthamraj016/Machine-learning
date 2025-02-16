@@ -1,0 +1,54 @@
+import pandas as pd
+import numpy as np
+import os
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+
+# Check if the file exists
+file_path = "Judgment_Embeddings_InLegalBERT.xlsx"
+if not os.path.exists(file_path):
+    raise FileNotFoundError(f"Error: The file '{file_path}' was not found in the directory.")
+
+# Load dataset
+df_project = pd.read_excel(file_path)
+
+# Check if 'Label' column exists
+if "Label" not in df_project.columns:
+    raise ValueError("Error: 'Label' column not found in the dataset. Available columns are:", df_project.columns)
+
+# Filter data for labels 0 and 1
+df_project = df_project[df_project["Label"].isin([0, 1])]
+
+# Check if data exists after filtering
+if df_project.empty:
+    raise ValueError("Error: No data available after filtering for labels 0 and 1.")
+
+# Extract features and labels
+X_project = df_project.drop(columns=["Label"]).values
+y_project = df_project["Label"].values
+
+# Ensure X_project and y_project are not empty
+if X_project.shape[0] == 0 or y_project.shape[0] == 0:
+    raise ValueError("Error: Feature matrix or labels are empty after processing.")
+
+# Train/Test Split
+X_train, X_test, y_train, y_test = train_test_split(X_project, y_project, test_size=0.2, random_state=42)
+
+# Train kNN classifier with k=3
+knn = KNeighborsClassifier(n_neighbors=3)
+knn.fit(X_train, y_train)
+
+# Predictions
+y_train_pred = knn.predict(X_train)
+y_test_pred = knn.predict(X_test)
+
+# Performance Metrics
+print("\nConfusion Matrix (Train Data):\n", confusion_matrix(y_train, y_train_pred))
+print("Classification Report (Train Data):\n", classification_report(y_train, y_train_pred))
+
+print("\nConfusion Matrix (Test Data):\n", confusion_matrix(y_test, y_test_pred))
+print("Classification Report (Test Data):\n", classification_report(y_test, y_test_pred))
+
+print(f"\nTraining Accuracy: {accuracy_score(y_train, y_train_pred):.4f}")
+print(f"Test Accuracy: {accuracy_score(y_test, y_test_pred):.4f}")
